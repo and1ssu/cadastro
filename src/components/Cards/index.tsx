@@ -3,20 +3,21 @@ import { Card, CardContent, Typography, IconButton, TextField } from '@mui/mater
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface ComentarioProps {
-  name: string;
-  annotation: string;
+interface CardsProps {
+  title: string;
+  content: string;
   onEditar: (novoTexto: string) => void;
   onExcluir: () => void;
 }
 
-export default function CommentsCard({ name, annotation, onEditar, onExcluir }: ComentarioProps): JSX.Element{
+export default function Cards({ title, content, onEditar, onExcluir }: CardsProps): JSX.Element{
   const [modoEdicao, setModoEdicao] = useState(false);
-  const [novoTexto, setNovoTexto] = useState(annotation);
+  const [editTitle, setEditTitle] = useState(title);
+  const [editContent, setEditContent] = useState(content);
 
   const handleEditar = () => {
     setModoEdicao(true);
-    setNovoTexto(annotation);
+    setNovoTexto(content);
   };
 
   const handleCancelarEdicao = () => {
@@ -29,20 +30,32 @@ export default function CommentsCard({ name, annotation, onEditar, onExcluir }: 
   };
 
   return (
-    <Card variant="outlined" style={{ marginBottom: '10px' }}>
+    <Card variant="outlined" style={{ marginBottom: '10px', width: '300px' }}>
       <CardContent>
-        <Typography variant="h6">{name}</Typography>
         {modoEdicao ? (
+          <>
+          <TextField
+          multiline
+          fullWidth
+          value={editTitle}
+          onChange={(e) => setEditTitle(e.target.value)}
+        />
           <TextField
             multiline
             fullWidth
-            value={novoTexto}
-            onChange={(e) => setNovoTexto(e.target.value)}
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
           />
+          </>
+
         ) : (
-          <Typography>{annotation}</Typography>
+          <>
+           <Typography variant="h6">{title}</Typography>
+            <Typography>{novoTexto}</Typography>
+          </>
+
         )}
-        <div style={{ marginTop: '10px' }}>
+        <div style={{ marginTop: '10px', display:'flex', justifyContent: 'flex-end' }}>
           {modoEdicao ? (
             <>
               <IconButton onClick={handleSalvarEdicao} size="small">
@@ -66,6 +79,6 @@ export default function CommentsCard({ name, annotation, onEditar, onExcluir }: 
       </CardContent>
     </Card>
   );
-};
+}
 
 

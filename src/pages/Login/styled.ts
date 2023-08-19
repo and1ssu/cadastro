@@ -26,6 +26,8 @@ export const BoxRight = styled.div`
     align-items: center;
     justify-content: center;
     width: 50%;
+    padding: 50px;
+    margin-right: 20px;
 `;
 
 export const Img = styled.img`

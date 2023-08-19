@@ -1,41 +1,90 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container,  Typography } from '@mui/material';
-import Comentario from '../../components/Comment';
+import Cards from '../../components/Cards';
 import TextField from '../../components/TextField';
-
 import Navbar from "../../components/NavBar"
 import * as S from './styled';
+import FakerApi from '../../services/fakerApi';
+import { useNavigate } from 'react-router-dom';
 
+interface TPost {
+    title: string;
+    content: string;
+    id: number;
+    user_id: number;
+}
 
 
 export default function Dashboard() {
+    const [postArray, setPostArray] = useState<TPost[]>([]);
+    const [titlePost, setTitlePost] = useState('');
+    const [annotationPost, setAnnotationPost] = useState('');
+    const navigate = useNavigate();
+console.log('POSTS',postArray);
+    const handleLogout = async() => {
+        try {
+            await FakerApi.post('/logout', {});
+        } catch (error) {
+            console.log(error);
+        } finally {
+            localStorage.removeItem('token');
+            navigate('/')
+            console.log('Logged out');
+        }
 
-    const handleLogout = () => {
-        // Implement your logout logic here
-        // For example, clearing user session, redirecting to login page, etc.
-        console.log('Logged out');
     };
-    const [comentarios, setComentarios] = useState<{ name: string; annotation: string }[]>([]);
-    const [nomeNovoComentario, setNomeNovoComentario] = useState('');
-    const [textoNovoComentario, setTextoNovoComentario] = useState('');
 
-    const handleAdicionarComentario = () => {
-        if (nomeNovoComentario && textoNovoComentario) {
-            setComentarios([...comentarios, { name: nomeNovoComentario, annotation: textoNovoComentario }]);
-            setNomeNovoComentario('');
-            setTextoNovoComentario('');
+    useEffect(() => {
+        getPosts();
+    }, []);
+
+
+    const handleAddPost = async () => {
+        try {
+            await FakerApi.post('/posts/create', { title: titlePost, content: annotationPost });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            getPosts();
+            setAnnotationPost('');
+            setTitlePost('');
+            console.log('Post created');
         }
     };
 
-    const handleEditarComentario = (indice: number, novoTexto: string) => {
-        const novosComentarios = [...comentarios];
-        novosComentarios[indice].annotation = novoTexto;
-        setComentarios(novosComentarios);
+    const getPosts = async () => {
+        try {
+            const listPosts = await FakerApi.get('/posts', {});
+            console.log(listPosts);
+            setPostArray(listPosts.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    const handleExcluirComentario = (indice: number) => {
-        const novosComentarios = comentarios.filter((_, i) => i !== indice);
-        setComentarios(novosComentarios);
+    const handleEditarComentario = async (post_id: number, title: string, content: string) => {
+        try {
+            await FakerApi.put('/posts/update', { post_id: post_id, post: { title: title, content: content } });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            getPosts();
+            console.log('Post updated');
+        }
+        const novosComentarios = [...postArray];
+        novosComentarios[indice].annotation = novoTexto;
+        setPostArray(novosComentarios);
+    };
+
+    const handleExcluirComentario = async (post_id: number) => {
+        try{
+            await FakerApi.delete('/posts/remove', { post_id: post_id })
+        } catch (error) {
+            console.log(error);
+        } finally {
+            getPosts();
+            console.log('Post deleted');
+        }
     };
 
 
@@ -47,33 +96,33 @@ export default function Dashboard() {
             <S.Container>
                 <S.BoxLeft style={{ marginBottom: '20px' }}>
                     <TextField
-                        label="Nome"
-                        value={nomeNovoComentario}
-                        onChange={(e) => setNomeNovoComentario(e.target.value)}
+                        label="Titulo"
+                        value={titlePost}
+                        onChange={(e) => setTitlePost(e.target.value)}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         label="Comentário"
-                        value={textoNovoComentario}
-                        onChange={(e) => setTextoNovoComentario(e.target.value)}
+                        value={annotationPost}
+                        onChange={(e) => setAnnotationPost(e.target.value)}
                         fullWidth
                         multiline
                         margin="normal"
                         height="90px"
                     />
-                    <Button variant="contained" onClick={handleAdicionarComentario}>
-                        Adicionar Comentário
+                    <Button variant="contained" onClick={handleAddPost}>
+                        Adicionar Post
                     </Button>
                 </S.BoxLeft>
                 <S.BoxRight>
-                    {comentarios.map((comentario, index) => (
-                        <Comentario
+                    {postArray.map((post, index) => (
+                        <Cards
                             key={index}
-                            name={comentario.name}
-                            annotation={comentario.annotation}
-                            onEditar={(novoTexto) => handleEditarComentario(index, novoTexto)}
-                            onExcluir={() => handleExcluirComentario(index)}
+                            title={post.title}
+                            content={post.content}
+                            onEditar={() => handleEditarComentario(post.id, post.title, post.content)}
+                            onExcluir={() => handleExcluirComentario(post.id)}
                         />
                     ))}
                 </S.BoxRight>
