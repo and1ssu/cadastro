@@ -6,7 +6,7 @@ interface UserRegistrationModalProps {
 }
 
 const UserRegistrationModal: React.FC<UserRegistrationModalProps> = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,7 +28,7 @@ const UserRegistrationModal: React.FC<UserRegistrationModalProps> = () => {
       <Button variant="contained" color="primary" onClick={handleUserRegistration}>
         Cadastrar Usuário
       </Button>
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} >
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
           <Typography variant="h6" gutterBottom>
             Usuário Cadastrado

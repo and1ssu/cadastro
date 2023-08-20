@@ -15,7 +15,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const navigete = useNavigate();
-    console.log(message);
+
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
     };

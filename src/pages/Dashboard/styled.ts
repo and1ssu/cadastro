@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import logo from '../../assets/logo.png';
 
 export const NavContainer = styled.div`
     display: flex;
@@ -31,12 +30,22 @@ export const BoxLeft = styled.div`
     width: 512px;
     padding: 120px;
     margin-right: 120px;
+
 `;
 
 export const BoxRight = styled.div`
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 120px;
+    padding: 41px;
+    overflow: auto;
+    max-height: 450px;
+    white-space: nowrap;
+
+
+    border-radius: 5px;
+    //box-shadow: 0px 0px 3px 0px #416ab6;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+
+
 `;

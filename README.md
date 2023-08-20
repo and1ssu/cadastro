@@ -18,8 +18,7 @@ Para que todas as dependências e bibliotecas do sistema sejam instaladas.
 Executa o aplicativo no modo de desenvolvimento.\
 Abra [http://localhost:5173/](http://localhost:5173/) para visualizá-lo no navegador.
 
-A página será recarregada se você fizer edições.
-
+A página será recarregada se você fizer edições. No console do navegador, você verá erros de construção.
 
 
 # Bibliotecas usadas

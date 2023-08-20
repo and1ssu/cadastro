@@ -6,6 +6,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Typography,
 } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import logo from '../../assets/logo.png';
@@ -14,10 +15,12 @@ import * as S from './styled';
 
 interface NavbarProps {
   onLogout: () => void;
+  User: string | null;
 }
 
-export default function Navbar({ onLogout }: NavbarProps){
+export default function Navbar({ onLogout, User}: NavbarProps){
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  console.log(  'AQUI', User);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,6 +48,9 @@ export default function Navbar({ onLogout }: NavbarProps){
             onClick={handleMenuOpen}
           >
             <AccountCircle />
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 1 }}>
+            {User}
+          </Typography>
           </IconButton>
         </S.BoxMenu>
 
@@ -68,5 +74,5 @@ export default function Navbar({ onLogout }: NavbarProps){
       </Toolbar>
     </AppBar>
   );
-};
+}
 

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-
 import { TextField as MUITextField, TextFieldProps as MuiTextFieldProps } from '@mui/material';
+
 export const TypografyLabel = styled.div`
   font-weight: 400;
   font-size: 12px;

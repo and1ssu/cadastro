@@ -6,7 +6,7 @@ import TextField from '../../components/TextField';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FakerApi from '../../services/fakerApi.js';
-
+import Modal from '../../components/Modal';
 
 
 export default function Register() {
@@ -49,6 +49,7 @@ export default function Register() {
 
     return (
         <S.Container>
+
             <form onSubmit={handleSubmit}>
                 <S.Paper elevation={5} >
                     <img src={logo} alt="logo" />
@@ -74,6 +75,7 @@ export default function Register() {
                     <Typography sx={{ marginTop: 2, marginBottom: 3 }}><Link to="/">Voltar</Link></Typography>
                 </S.Paper>
             </form>
+            <Modal/>
         </S.Container>
     );
 }
