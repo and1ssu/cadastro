@@ -18,9 +18,9 @@ interface NavbarProps {
   User: string | null;
 }
 
-export default function Navbar({ onLogout, User}: NavbarProps){
+export default function Navbar({ onLogout, User }: NavbarProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  console.log(  'AQUI', User);
+
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -49,8 +49,8 @@ export default function Navbar({ onLogout, User}: NavbarProps){
           >
             <AccountCircle />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 1 }}>
-            {User}
-          </Typography>
+              {User}
+            </Typography>
           </IconButton>
         </S.BoxMenu>
 

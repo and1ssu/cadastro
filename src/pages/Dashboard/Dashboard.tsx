@@ -1,4 +1,4 @@
-import  { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import Cards from './components/Cards';
 import TextField from '../../components/TextField';
@@ -28,7 +28,7 @@ export default function Dashboard() {
 
     const getIdUser = useCallback(async () => {
         try {
-            const token =  await FakerApi.get('/me', {})
+            const token = await FakerApi.get('/me', {})
             setIdUser(token.data.id);
             setNameUser(token.data.name);
         } catch (error) {
@@ -36,12 +36,12 @@ export default function Dashboard() {
         }
     }, []);
 
-    useEffect(  () => {
+    useEffect(() => {
         getIdUser();
     }, []);
 
 
-    const handleLogout = async() => {
+    const handleLogout = async () => {
         try {
             await FakerApi.post('/logout', {});
         } catch (error) {
@@ -81,7 +81,7 @@ export default function Dashboard() {
 
 
     const handleDeleteComments = useCallback(async (post_id: number) => {
-        try{
+        try {
             await FakerApi.delete('/posts/remove', { post_id: post_id });
             setPostArray(postArray.filter((post) => post.id !== post_id));
 
@@ -91,7 +91,7 @@ export default function Dashboard() {
             getPosts();
             console.log('Post deleted');
         }
-    } , []);
+    }, []);
 
     useEffect(() => {
         getPosts();
@@ -101,7 +101,7 @@ export default function Dashboard() {
     return (
         <>
             <S.NavContainer>
-                <Navbar onLogout={handleLogout} User={nameUser}/>
+                <Navbar onLogout={handleLogout} User={nameUser} />
             </S.NavContainer>
             <S.Container>
                 <S.BoxLeft style={{ marginBottom: '20px' }}>
@@ -124,26 +124,26 @@ export default function Dashboard() {
                         rows={4}
                         height="90px"
                     />
-                    <Button variant="contained" onClick={handleAddPost}sx={{marginTop: '90px'}}>
+                    <Button variant="contained" onClick={handleAddPost} sx={{ marginTop: '90px' }}>
                         Adicionar Post
                     </Button>
                 </S.BoxLeft>
-                <S.BoxRight  id='ConteinerCards'>
+                <S.BoxRight id='ConteinerCards'>
                     <div id='box'>
                         {postArray.map((post) => {
                             if (idUser === post.user_id) {
                                 return (
-                                <Cards
-                                    key={post.id}
-                                    title={post.title}
-                                    content={post.content}
-                                    idPost={post.id}
-                                    onExcluir={() => handleDeleteComments(post.id)}
-                                />
+                                    <Cards
+                                        key={post.id}
+                                        title={post.title}
+                                        content={post.content}
+                                        idPost={post.id}
+                                        onExcluir={() => handleDeleteComments(post.id)}
+                                    />
                                 );
                             }
                             return null;
-                            })}
+                        })}
                     </div>
                 </S.BoxRight>
             </S.Container>

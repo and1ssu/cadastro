@@ -50,7 +50,7 @@ export const Button = styled(MuiButton) <MuiButtonProps>`
     height: 50px;
 `;
 
-export const Link  = styled.a`
+export const Link = styled.a`
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;

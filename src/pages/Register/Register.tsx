@@ -8,12 +8,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import FakerApi from '../../services/fakerApi.js';
 import Modal from '../../components/Modal';
 
+const message = 'Usuário cadastrado com sucesso!';
 
 export default function Register() {
     const navigete = useNavigate();
     const [name, setName] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [open, setOpen] = useState<boolean>(false);
 
 
 
@@ -33,23 +35,23 @@ export default function Register() {
         event.preventDefault();
         try {
             await FakerApi.post('/register', { name, username, password });
+            setOpen(true);
             setName('');
             setUsername('');
             setPassword('');
-            alert('Usuário cadastrado com sucesso!');
-            navigete('/');
-
-
         }
         catch (error) {
             console.log(error);
         }
-        console.log('Dados do formulário:', { name, username, password });
     };
+
+    const handleCloseModal = () => {
+        setOpen(false);
+        navigete('/');
+      };
 
     return (
         <S.Container>
-
             <form onSubmit={handleSubmit}>
                 <S.Paper elevation={5} >
                     <img src={logo} alt="logo" />
@@ -75,7 +77,7 @@ export default function Register() {
                     <Typography sx={{ marginTop: 2, marginBottom: 3 }}><Link to="/">Voltar</Link></Typography>
                 </S.Paper>
             </form>
-            <Modal/>
+            <Modal message={message} isOpen={open} handleClose={handleCloseModal}/>
         </S.Container>
     );
 }

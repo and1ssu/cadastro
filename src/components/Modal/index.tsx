@@ -1,48 +1,46 @@
-import React, { useState } from 'react';
-import { Button, Modal, Typography } from '@mui/material';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
-interface UserRegistrationModalProps {
-  // Aqui você pode adicionar mais propriedades conforme necessário
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+interface IProps {
+  message: string;
+  isOpen: boolean;
+  handleClose: () => void;
 }
 
-const UserRegistrationModal: React.FC<UserRegistrationModalProps> = () => {
-  const [open, setOpen] = useState(true);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+export default function BasicModal({ message, isOpen, handleClose }: IProps) {
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleUserRegistration = () => {
-    // Simulação de lógica de cadastro de usuário
-    // Aqui você pode fazer a chamada para a API ou o que for necessário
-    // E então, após o cadastro ser concluído com sucesso, abrir o modal
-    handleOpen();
-  };
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleUserRegistration}>
-        Cadastrar Usuário
-      </Button>
-      <Modal open={open} >
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-          <Typography variant="h6" gutterBottom>
-            Usuário Cadastrado
+
+      <Modal
+        open={isOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {message}
           </Typography>
-          <Typography variant="body1">
-            O usuário foi cadastrado com sucesso!
-          </Typography>
-          <Button onClick={handleClose} variant="contained" color="primary" style={{ marginTop: 16 }}>
-            Fechar
-          </Button>
-        </div>
+        </Box>
       </Modal>
     </div>
   );
-};
-
-export default UserRegistrationModal;
+}
